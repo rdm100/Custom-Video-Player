@@ -11,4 +11,46 @@ const ranges = player.querySelectorAll('.player__slider');
 function togglePlay() {
 video.paused ? video.play() : video.pause();
 }
+
+function updateButton(){
+	toggle.textContent = this.paused ? '►': '❚ ❚';
+}
+
+function skip(){
+	console.log(this.dataset.skip);
+	video.currentTime += parseFloat(this.dataset.skip);
+}
+
+function handleRangeUpdate(){
+	if(!isPressed) return;
+	console.log(this.value);
+	console.log(this.name);
+	
+}
 // hook up the event listeners
+video.addEventListener("click", togglePlay);
+video.addEventListener("play", updateButton);
+video.addEventListener("pause", updateButton);
+toggle.addEventListener("click", togglePlay);
+
+skipButtons.forEach(element => {
+	element.addEventListener("click", skip);
+});
+
+ranges.forEach(element => {
+	element.addEventListener("change", handleRangeUpdate);
+});
+
+ranges.forEach(element => {
+	element.addEventListener("mousemove", handleRangeUpdate);
+});
+
+let isPressed = false;
+
+ranges.forEach(element => {
+	element.addEventListener("mousedown", (e) => isPressed = true);
+});
+
+ranges.forEach(element => {
+	element.addEventListener("mouseup", (e) => isPressed = false);
+});
